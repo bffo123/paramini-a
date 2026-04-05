@@ -10,43 +10,64 @@
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#0f0f1a,#1a0f1f);
+background:radial-gradient(circle at top,#1a0f1f,#0f0f1a);
 color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 overflow:hidden;
 }
 
-/* LOGIN */
-#login{
+/* APP */
+.app{
+width:360px;
+height:680px;
+background:rgba(0,0,0,0.7);
+border-radius:30px;
+box-shadow:0 0 60px rgba(255,0,150,0.4);
+overflow:hidden;
+position:relative;
+}
+
+/* CARTA */
+#carta{
 position:absolute;
 width:100%;
 height:100%;
 display:flex;
 justify-content:center;
 align-items:center;
+flex-direction:column;
+cursor:pointer;
 }
 
-.card{
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(20px);
-padding:30px;
-border-radius:20px;
-box-shadow:0 0 40px rgba(255,0,150,0.5);
-text-align:center;
+#carta h2{
+animation:latido 1.5s infinite;
 }
 
-.card h2{
-color:#ff80bf;
-text-shadow:0 0 10px rgba(255,128,191,0.8);
+@keyframes latido{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.1);}
+}
+
+/* LOGIN */
+#login{
+display:none;
+position:absolute;
+width:100%;
+height:100%;
+justify-content:center;
+align-items:center;
+flex-direction:column;
 }
 
 input{
-margin-top:10px;
 padding:12px;
 border-radius:10px;
 border:none;
 background:#1f1f2e;
 color:white;
-width:200px;
 }
 
 button{
@@ -62,55 +83,84 @@ cursor:pointer;
 /* CONTENT */
 #content{
 display:none;
+padding:15px;
 text-align:center;
-padding-top:40px;
 }
 
 /* RAMO */
 #ramo{
-width:200px;
+position:relative;
+width:100%;
+height:220px;
+}
+
+.rosa{
+position:absolute;
+width:45px;
 opacity:0;
-transform:scale(0.5);
-transition:1.5s;
-margin-top:20px;
+animation:fade 1s forwards;
+}
+
+@keyframes fade{
+to{opacity:1; transform:scale(1);}
 }
 
 /* CHAT */
 #chatBox{
-height:200px;
+height:180px;
 overflow:auto;
 background:rgba(0,0,0,0.4);
 border-radius:10px;
 padding:10px;
-margin:20px auto;
-width:300px;
+margin-top:10px;
+font-size:13px;
 }
 
+/* CORAZONES */
+.corazon{
+position:absolute;
+color:#ff4da6;
+animation:subir 6s linear infinite;
+font-size:18px;
+}
+
+@keyframes subir{
+0%{transform:translateY(100vh); opacity:1;}
+100%{transform:translateY(-10vh); opacity:0;}
+}
 </style>
 </head>
 
 <body>
 
+<div class="app">
+
+<!-- CARTA -->
+<div id="carta" onclick="abrirCarta()">
+<h2>💌 Toca para abrir</h2>
+</div>
+
+<!-- LOGIN -->
 <div id="login">
-<div class="card">
-<h2>💌 Para ti</h2>
-<input id="pass" placeholder="Nuestra fecha">
-<br>
+<h3>Nuestra fecha 💖</h3>
+<input id="pass">
 <button onclick="entrar()">Entrar</button>
 </div>
-</div>
 
+<!-- CONTENIDO -->
 <div id="content">
+<h3>Para mi niña 💖</h3>
 
-<h1>Para mi niña 💖</h1>
-
-<img id="ramo" src="https://pngimg.com/d/rose_bouquet_PNG35.png">
+<div id="ramo"></div>
 
 <div id="chatBox"></div>
 <input id="inputChat" placeholder="Escribe algo...">
 <button onclick="responder()">Enviar</button>
+</div>
 
 </div>
+
+<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
 
 <script>
 const PASSWORD="2111";
@@ -120,21 +170,50 @@ function apodo(){
 return apodos[Math.floor(Math.random()*apodos.length)];
 }
 
+/* CARTA */
+function abrirCarta(){
+carta.style.display="none";
+login.style.display="flex";
+}
+
+/* LOGIN */
 function entrar(){
 if(pass.value===PASSWORD){
 login.style.display="none";
 content.style.display="block";
-
-/* animar ramo */
-setTimeout(()=>{
-ramo.style.opacity=1;
-ramo.style.transform="scale(1)";
-},500);
-
-} else alert("mal 😢");
+crearRamo();
+corazones();
+music.play();
+}else alert("mal 😢");
 }
 
-/* IA MEJORADA */
+/* RAMO 20 ROSAS */
+function crearRamo(){
+for(let i=0;i<20;i++){
+let r=document.createElement("img");
+r.src="https://cdn-icons-png.flaticon.com/512/869/869869.png";
+r.className="rosa";
+r.style.left=(Math.random()*80)+"%";
+r.style.top=(Math.random()*140)+"px";
+r.style.animationDelay=(i*0.1)+"s";
+ramo.appendChild(r);
+}
+}
+
+/* CORAZONES */
+function corazones(){
+setInterval(()=>{
+let c=document.createElement("div");
+c.className="corazon";
+c.innerHTML="❤";
+c.style.left=Math.random()*100+"vw";
+document.body.appendChild(c);
+
+setTimeout(()=>c.remove(),6000);
+},800);
+}
+
+/* IA */
 function responder(){
 let msg=inputChat.value.toLowerCase();
 chatBox.innerHTML+="<div>💬 Tú: "+msg+"</div>";
@@ -142,12 +221,16 @@ chatBox.innerHTML+="<div>💬 Tú: "+msg+"</div>";
 let r="Me gusta leerte ❤️";
 
 if(msg.includes("hola")) r="Hola "+apodo()+" 💖";
-else if(msg.includes("que haces")) r="Pensando en ti obviamente "+apodo()+" 😏";
+else if(msg.includes("que haces")||msg.includes("q haces")) r="Pensando en ti 😏";
 else if(msg.includes("como estas")) r="Mejor ahora que te leo 💕";
 else if(msg.includes("te amo")) r="Yo te amo muchísimo más "+apodo()+" ❤️";
-else if(msg.includes("extraño")) r="Yo también te extraño un montón 🥺";
-else if(msg.includes("duermes")) r="Si tú duermes, yo sueño contigo 💭💖";
-else if(msg.includes("vienes")) r="Siempre voy a estar contigo, aunque sea así 🫶";
+else if(msg.includes("extraño")) r="Yo también te extraño 🥺";
+else if(msg.includes("duermes")) r="Sueño contigo 💭";
+else if(msg.includes("ven")) r="Siempre contigo 🫶";
+else if(msg.includes("beso")) r="Te lleno de besos 😘";
+else if(msg.includes("lindo")) r="Tú eres lo más lindo 💖";
+else if(msg.includes("novia")) r="La mejor novia eres tú 😌";
+else if(msg.includes("quiero")) r="Yo también quiero todo contigo ❤️";
 
 setTimeout(()=>{
 chatBox.innerHTML+="<div>🤖 Yo: "+r+"</div>";
