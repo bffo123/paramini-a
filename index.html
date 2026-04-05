@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Para mi bebe ❤️</title>
+<title>Para mi niña 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
@@ -26,22 +26,34 @@ align-items:center;
 }
 
 .card{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(15px);
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(20px);
 padding:30px;
 border-radius:20px;
-box-shadow:0 0 40px rgba(255,0,150,0.3);
+box-shadow:0 0 40px rgba(255,0,150,0.5);
 text-align:center;
 }
 
-input,button{
+.card h2{
+color:#ff80bf;
+text-shadow:0 0 10px rgba(255,128,191,0.8);
+}
+
+input{
+margin-top:10px;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#1f1f2e;
+color:white;
+width:200px;
+}
+
+button{
 margin-top:10px;
 padding:10px;
 border-radius:10px;
 border:none;
-}
-
-button{
 background:#ff4da6;
 color:white;
 cursor:pointer;
@@ -54,36 +66,26 @@ text-align:center;
 padding-top:40px;
 }
 
-h1{
-font-weight:600;
-color:#ff80bf;
+/* RAMO */
+#ramo{
+width:200px;
+opacity:0;
+transform:scale(0.5);
+transition:1.5s;
+margin-top:20px;
 }
 
 /* CHAT */
 #chatBox{
 height:200px;
 overflow:auto;
-background:rgba(0,0,0,0.3);
+background:rgba(0,0,0,0.4);
 border-radius:10px;
 padding:10px;
 margin:20px auto;
 width:300px;
 }
 
-/* FLORES */
-.flower{
-position:absolute;
-bottom:-80px;
-width:40px;
-animation:floatUp linear infinite;
-}
-
-@keyframes floatUp{
-to{
-transform:translateY(-110vh);
-opacity:0;
-}
-}
 </style>
 </head>
 
@@ -91,7 +93,7 @@ opacity:0;
 
 <div id="login">
 <div class="card">
-<h2>💌 Para mi meme titita :3</h2>
+<h2>💌 Para ti</h2>
 <input id="pass" placeholder="Nuestra fecha">
 <br>
 <button onclick="entrar()">Entrar</button>
@@ -101,6 +103,8 @@ opacity:0;
 <div id="content">
 
 <h1>Para mi niña 💖</h1>
+
+<img id="ramo" src="https://pngimg.com/d/rose_bouquet_PNG35.png">
 
 <div id="chatBox"></div>
 <input id="inputChat" placeholder="Escribe algo...">
@@ -120,37 +124,37 @@ function entrar(){
 if(pass.value===PASSWORD){
 login.style.display="none";
 content.style.display="block";
-flores();
-} else alert("mal :c");
+
+/* animar ramo */
+setTimeout(()=>{
+ramo.style.opacity=1;
+ramo.style.transform="scale(1)";
+},500);
+
+} else alert("mal 😢");
 }
 
-/* IA LIMPIA */
+/* IA MEJORADA */
 function responder(){
-let msg=inputChat.value;
+let msg=inputChat.value.toLowerCase();
 chatBox.innerHTML+="<div>💬 Tú: "+msg+"</div>";
 
 let r="Me gusta leerte ❤️";
 
-if(msg.toLowerCase().includes("hola")) r="Hola "+apodo()+" 💖";
-if(msg.toLowerCase().includes("te amo")) r="Yo te amo mucho más "+apodo()+" ❤️";
-if(msg.toLowerCase().includes("extraño")) r="Yo también te extraño 🥺";
+if(msg.includes("hola")) r="Hola "+apodo()+" 💖";
+else if(msg.includes("que haces")) r="Pensando en ti obviamente "+apodo()+" 😏";
+else if(msg.includes("como estas")) r="Mejor ahora que te leo 💕";
+else if(msg.includes("te amo")) r="Yo te amo muchísimo más "+apodo()+" ❤️";
+else if(msg.includes("extraño")) r="Yo también te extraño un montón 🥺";
+else if(msg.includes("duermes")) r="Si tú duermes, yo sueño contigo 💭💖";
+else if(msg.includes("vienes")) r="Siempre voy a estar contigo, aunque sea así 🫶";
 
 setTimeout(()=>{
 chatBox.innerHTML+="<div>🤖 Yo: "+r+"</div>";
 chatBox.scrollTop=chatBox.scrollHeight;
-},800);
-}
+},700);
 
-/* FLORES BONITAS */
-function flores(){
-for(let i=0;i<15;i++){
-let f=document.createElement("img");
-f.src="https://cdn-icons-png.flaticon.com/512/869/869869.png";
-f.className="flower";
-f.style.left=Math.random()*100+"vw";
-f.style.animationDuration=(6+Math.random()*4)+"s";
-document.body.appendChild(f);
-}
+inputChat.value="";
 }
 </script>
 
