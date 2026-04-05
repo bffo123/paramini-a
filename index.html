@@ -2,16 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Para Ti ❤️</title>
+<title>Para mi bebe ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
 body{
 margin:0;
-font-family:'Segoe UI';
-background:black;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#0f0f1a,#1a0f1f);
 color:white;
 overflow:hidden;
-text-align:center;
 }
 
 /* LOGIN */
@@ -24,17 +25,13 @@ justify-content:center;
 align-items:center;
 }
 
-.carta{
-background:#111;
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
 padding:30px;
 border-radius:20px;
-box-shadow:0 0 60px pink;
-animation:zoom 1s;
-}
-
-@keyframes zoom{
-from{transform:scale(0);}
-to{transform:scale(1);}
+box-shadow:0 0 40px rgba(255,0,150,0.3);
+text-align:center;
 }
 
 input,button{
@@ -44,268 +41,115 @@ border-radius:10px;
 border:none;
 }
 
-button{background:pink;cursor:pointer;}
-
-#content{display:none;}
-
-/* ROSAS */
-.rose{
-position:absolute;
-bottom:-50px;
-font-size:24px;
-animation:subir linear infinite;
-}
-@keyframes subir{
-to{transform:translateY(-110vh);opacity:0;}
+button{
+background:#ff4da6;
+color:white;
+cursor:pointer;
 }
 
-/* CORAZONES */
-.heart{
-position:absolute;
-top:-20px;
-font-size:20px;
-animation:caer linear infinite;
+/* CONTENT */
+#content{
+display:none;
+text-align:center;
+padding-top:40px;
 }
-@keyframes caer{
-to{transform:translateY(110vh);}
+
+h1{
+font-weight:600;
+color:#ff80bf;
 }
 
 /* CHAT */
 #chatBox{
-height:180px;
-overflow:auto;
-border:1px solid pink;
-margin:10px auto;
-max-width:330px;
-padding:8px;
-}
-
-/* JUEGO */
-#game{
 height:200px;
-border:1px solid pink;
-margin:10px;
-position:relative;
+overflow:auto;
+background:rgba(0,0,0,0.3);
+border-radius:10px;
+padding:10px;
+margin:20px auto;
+width:300px;
 }
 
-/* STORY */
-#story{color:pink;margin-top:10px;}
-</style>
+/* FLORES */
+.flower{
+position:absolute;
+bottom:-80px;
+width:40px;
+animation:floatUp linear infinite;
+}
 
+@keyframes floatUp{
+to{
+transform:translateY(-110vh);
+opacity:0;
+}
+}
+</style>
 </head>
 
 <body>
 
 <div id="login">
-<div class="carta">
-<h2>💌 Para ti</h2>
+<div class="card">
+<h2>💌 Para mi meme titita :3</h2>
 <input id="pass" placeholder="Nuestra fecha">
 <br>
-<button onclick="entrar()">Abrir</button>
+<button onclick="entrar()">Entrar</button>
 </div>
 </div>
 
 <div id="content">
 
-<h1>Para mi niña ❤️</h1>
-<p>Hice esto pensando en ti… 💖</p>
+<h1>Para mi niña 💖</h1>
 
-<div id="contador"></div>
-<div id="mensajes"></div>
-
-<!-- CHAT -->
-<h2>💬 Háblame</h2>
 <div id="chatBox"></div>
-<input id="inputChat">
+<input id="inputChat" placeholder="Escribe algo...">
 <button onclick="responder()">Enviar</button>
-
-<!-- JUEGO -->
-<h2>🎮 Encuentra el corazón</h2>
-<div id="game"></div>
-<p id="win"></p>
-
-<!-- HISTORIA -->
-<h2>📖 Nuestra historia</h2>
-<div id="story"></div>
-<button onclick="historia()">Continuar</button>
 
 </div>
 
-<audio id="music" loop>
-<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
-</audio>
-
 <script>
 const PASSWORD="2111";
-const FECHA=new Date("2024-11-21");
-
 const apodos=["mi niña","mi bebé","mi cachetona"];
 
-/* FUNCION APODO RANDOM */
 function apodo(){
 return apodos[Math.floor(Math.random()*apodos.length)];
 }
 
-/* ENTRAR */
 function entrar(){
 if(pass.value===PASSWORD){
 login.style.display="none";
 content.style.display="block";
-music.play();
-
-rosas();
-corazones();
-contador();
-iniciarJuego();
-mensajesAuto();
-pensamientosRandom();
-} else alert("Mal 😢");
+flores();
+} else alert("mal :c");
 }
 
-/* EFECTO ESCRIBIENDO */
-function escribir(texto){
-chatBox.innerHTML+="<div>🤖 escribiendo...</div>";
-chatBox.scrollTop=chatBox.scrollHeight;
-
-setTimeout(()=>{
-chatBox.lastChild.innerHTML="🤖 Yo: "+texto;
-},1200);
-}
-
-/* IA GOD */
-let memoria=[];
-
+/* IA LIMPIA */
 function responder(){
 let msg=inputChat.value;
-let lower=msg.toLowerCase();
-
 chatBox.innerHTML+="<div>💬 Tú: "+msg+"</div>";
-memoria.push(lower);
 
-let r="Eres demasiado importante para mí ❤️";
+let r="Me gusta leerte ❤️";
 
-if(lower.includes("hola")){
-r="Hola "+apodo()+"… me encanta cuando apareces ❤️";
-}
-else if(lower.includes("te amo")){
-r=apodo()+"… eso me llega de verdad. Yo te amo muchísimo 💖";
-}
-else if(lower.includes("extraño")){
-r="Yo también te extraño… más de lo que digo "+apodo()+" 🥺";
-}
-else if(lower.includes("triste")){
-r="No me gusta saber que estás triste "+apodo()+"… ojalá abrazarte ahora 💔";
-}
-else if(lower.includes("feliz")){
-r="Me encanta verte feliz "+apodo()+" 💕";
-}
-else if(lower.includes("quiero")){
-r="Cuando dices eso… me haces imaginar todo contigo "+apodo()+" 💭";
-}
-else if(memoria.length>4){
-r="Sabes "+apodo()+"… siento que cada vez estamos más conectados ❤️";
-}
+if(msg.toLowerCase().includes("hola")) r="Hola "+apodo()+" 💖";
+if(msg.toLowerCase().includes("te amo")) r="Yo te amo mucho más "+apodo()+" ❤️";
+if(msg.toLowerCase().includes("extraño")) r="Yo también te extraño 🥺";
 
-escribir(r);
-}
-
-/* MENSAJES AUTO */
-function mensajesAuto(){
-const msgs=[
-"Estoy pensando en ti "+apodo()+" 💭",
-"Me haces muy feliz ❤️",
-"Quiero abrazarte 🥺",
-"Eres lo mejor que tengo 💖"
-];
-
-setInterval(()=>{
-mensajes.innerText=msgs[Math.floor(Math.random()*msgs.length)];
-},3000);
-}
-
-/* PENSAMIENTOS */
-function pensamientosRandom(){
-setInterval(()=>{
-let p=[
-"No sé qué tienes… pero me encantas ❤️",
-"A veces apareces en mi mente sin aviso 💭",
-"Siento que eres especial de verdad 🥺"
-];
-chatBox.innerHTML+="<div>🤖 Yo: "+p[Math.floor(Math.random()*p.length)]+"</div>";
+setTimeout(()=>{
+chatBox.innerHTML+="<div>🤖 Yo: "+r+"</div>";
 chatBox.scrollTop=chatBox.scrollHeight;
-},15000);
+},800);
 }
 
-/* CONTADOR */
-function contador(){
-setInterval(()=>{
-let dias=Math.floor((new Date()-FECHA)/86400000);
-contador.innerText="Llevamos "+dias+" días juntos 💕";
-},1000);
-}
-
-/* ROSAS */
-function rosas(){
-for(let i=0;i<20;i++){
-let r=document.createElement("div");
-r.className="rose";
-r.innerHTML="🌹";
-r.style.left=Math.random()*100+"vw";
-r.style.animationDuration=(3+Math.random()*5)+"s";
-document.body.appendChild(r);
-}
-}
-
-/* CORAZONES */
-function corazones(){
-setInterval(()=>{
-let h=document.createElement("div");
-h.className="heart";
-h.innerHTML="❤️";
-h.style.left=Math.random()*100+"vw";
-h.style.animationDuration=(3+Math.random()*5)+"s";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),5000);
-},300);
-}
-
-/* JUEGO */
-function iniciarJuego(){
-for(let i=0;i<6;i++){
-let f=document.createElement("div");
-f.innerHTML="🌹";
-f.style.position="absolute";
-f.style.left=Math.random()*90+"%";
-f.style.top=Math.random()*90+"%";
-game.appendChild(f);
-}
-
-let h=document.createElement("div");
-h.innerHTML="❤️";
-h.style.position="absolute";
-h.style.left=Math.random()*90+"%";
-h.style.top=Math.random()*90+"%";
-
-h.onclick=()=>{
-win.innerText="Sabía que lo encontrarías "+apodo()+" 💖";
-};
-game.appendChild(h);
-}
-
-/* HISTORIA */
-let paso=0;
-const historiaTexto=[
-"Todo empezó normal...",
-"Y llegaste tú 💖",
-"Sin darme cuenta… te volviste importante",
-"Ahora solo quiero todo contigo ❤️",
-"No quiero perderte nunca 🥺"
-];
-
-function historia(){
-if(paso<historiaTexto.length){
-story.innerText=historiaTexto[paso];
-paso++;
+/* FLORES BONITAS */
+function flores(){
+for(let i=0;i<15;i++){
+let f=document.createElement("img");
+f.src="https://cdn-icons-png.flaticon.com/512/869/869869.png";
+f.className="flower";
+f.style.left=Math.random()*100+"vw";
+f.style.animationDuration=(6+Math.random()*4)+"s";
+document.body.appendChild(f);
 }
 }
 </script>
